@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+  <section id="show-page">
+    <div>Flight: </div>
+    <div><%= flight.flightNo %></div>
+    <div>Airline: </div>
+    <div><%= flight.airline %></div>
+    <div>Depart Date: </div>
+    <div><%= flight.departs %></div>
+    
+  </section>
+
+  <br><br><h2>Destinations</h2>
+  <form id="add-destination-form" method="POST"
+    action="/flights/<%= flight._id %>/destinations">
+    <label>Arrival:
+      <input type="Date" name="arrival">
+    </label><br>
+    <label>Airport:
+    <select name="airport">
+      <option value="AUS">AUS</option>
+      <option value="DAL">DAL</option>
+      <option value="LAX">LAX</option>
+      <option value="SAN">SAN</option>
+      <option value="SEA">SEA</option>
+    </label><br>
+    </select>
+    <input type="submit" value="Add Destination">
+  </form>
+  <% if (flight.destinations.length) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Airport</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% flight.destinations.forEach(function(d) { %>
+          <tr>
+            <td><%= d.arrival %></td>
+            <td><%= d.airport %></td>
+            
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <h5>No Destination Selected</h5>
+  <% } %>
+  
+  <h1>Create Ticket</h1>
+
+  <form  action="/flights/<%= flight._id %>/tickets" method="POST">
+    <label>Seat
+    <input type="text" name="seat" required pattern="[A-F][1-9]\d">
+  </label>
+    <label>Price
+    <input type="price" name="price">
+  </label>
+    <input type="submit" value="Add Ticket">
+  
+  </form>
+</body>
+</html>
